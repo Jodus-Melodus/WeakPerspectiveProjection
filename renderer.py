@@ -6,15 +6,18 @@ class Camera:
         self.y = y
         self.z = z
 
+    def __repr__(self) -> str:
+        return f"({self.x}, {self.y}, {self.z})"
+
 class Vertex:
     def __init__(self, x:float, y:float, z:float, camera:Camera) -> None:
         self.x = x
         self.y = y
         self.z = z
         self.camera = camera
-        self.calculateProjectionCoords()
+        self.calculate_projection_coords()
 
-    def calculateProjectionCoords(self) -> None:
+    def calculate_projection_coords(self) -> None:
 
         self.x = (self.camera.z * (self.camera.x + self.x)) / (camera.z + self.z)
         self.y = (self.camera.z * (self.camera.y + self.y)) / (camera.z + self.z)
@@ -42,33 +45,33 @@ class Renderer:
         self.turtle.hideturtle()
         self.defaultColor = 'blue'
 
-    def drawVertex(self, vertex) -> None:
+    def draw_vertex(self, vertex) -> None:
         self.turtle.goto(vertex.x, vertex.y)
         self.turtle.pendown()
         self.turtle.penup()
 
-    def drawEdge(self, edge:Edge) -> None:
+    def draw_edge(self, edge:Edge) -> None:
         self.turtle.pencolor(edge.color)
         self.turtle.goto(edge.x1, edge.y1)
-        self.drawVertex(edge.vertex1)
+        self.draw_vertex(edge.vertex1)
         self.turtle.pendown()
         self.turtle.goto(edge.x2, edge.y2)
-        self.drawVertex(edge.vertex2)
+        self.draw_vertex(edge.vertex2)
         self.turtle.penup()
 
     def render(self, edgeTable:list) -> None:
         self.turtle.clear()
         for edge in edgeTable:
-            self.drawEdge(edge)
+            self.draw_edge(edge)
 
 if __name__ == '__main__':
 
     edgeTable = []
 
     render = Renderer()
-    camera = Camera(-50, -50, 250)
+    camera = Camera(0, -150, 550)
 
-    def update():
+    def initialize_renderer():
         # cube
         # A = Vertex(0, 0, 50, camera)
         # B = Vertex(100, 0, 50, camera)
@@ -112,44 +115,41 @@ if __name__ == '__main__':
         ]
         render.render(pyramid)
 
-    def incX():
+    def inc_x():
         camera.x += 50
-        print('incx')
-        update()
+        print(camera)
+        initialize_renderer()
     
-    def decX():
+    def dec_x():
         camera.x -= 50
-        print('decx')
-        update()
+        print(camera)
+        initialize_renderer()
     
-    def incY():
+    def inc_y():
         camera.y += 50
-        print('incy')
-        update()
+        print(camera)
+        initialize_renderer()
 
-    def decY():
+    def dec_y():
         camera.y -= 50
-        print('decy')
-        update()
+        print(camera)
+        initialize_renderer()
 
-    def incZ():
+    def inc_z():
         camera.z += 50
-        print('incz')
-        update()
+        print(camera)
+        initialize_renderer()
 
-    def decZ():
+    def dec_z():
         camera.z -= 50
-        print('decz')
-        update()
+        print(camera)
+        initialize_renderer()
 
-    turtle.onkey(incX, 'a')
-    turtle.onkey(decX, 'd')
-    turtle.onkey(incZ, 's')
-    turtle.onkey(decZ, 'w')
-
+    turtle.onkey(inc_x, 'a')
+    turtle.onkey(dec_x, 'd')
+    turtle.onkey(inc_z, 's')
+    turtle.onkey(dec_z, 'w')
+    turtle.onkey(dec_y, 'space')
     turtle.listen()
-
-    update()
-
-    
+    initialize_renderer()
     turtle.mainloop()
